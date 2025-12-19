@@ -35,15 +35,8 @@ CFLAGS	= -Wall -Wextra -Werror -I.
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
-SRC = builtin_cd.c builtin_exit.c env_convert.c env_from.c env_ops.c \
-	error_utils.c exec_builtin.c exec_builtin2.c exec_builtin3.c exec_builtin_dispatch.c \
-	exec_builtin_runner.c exec_fd.c exec_main.c exec_main_utils.c exec_path.c \
-	exec_pipes.c exec_redir.c exec_subshell.c expand_wildcards.c \
-	export_utils.c free_utils.c heredoc.c heredoc2.c home_utils.c input_utils.c \
-	lexer.c lexer_add_token.c lexer_expand_quotes.c lexer_expand_utils.c \
-	lexer_expand_word.c lexer_handle.c lexer_operators.c lexer_utils.c main.c \
-	parse_args.c parser.c parser_append_args.c parser_ast.c parser_command.c \
-	parser_pipeline.c parser_redir.c parser_subshell.c signal.c
+SRC_DIR	= src
+SRC		= $(sort $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/*/*.c))
 
 OBJ = $(SRC:.c=.o)
 
