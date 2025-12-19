@@ -6,7 +6,7 @@
 #    By: mchihime <mchihime@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/16 20:20:41 by rakhaled          #+#    #+#              #
-#    Updated: 2025/12/19 15:14:21 by mchihime         ###   ########.fr        #
+#    Updated: 2025/12/19 15:31:46 by mchihime         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,39 +27,40 @@ define PRINT_BANNER
 "$(RESET)"
 endef
 
-NAME	= minishell
+NAME		= minishell
 
-CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -I.
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -I.
 
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
-SRC_DIR	= src
-SRC		= $(sort $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/*/*.c))
+SRC_DIR		= src
+OBJ_DIR		= obj
 
-OBJ = $(SRC:.c=.o)
+SRC			= $(shell find $(SRC_DIR) -name "*.c")
+OBJ			= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(PRINT_BANNER)
-	@echo "$(YELLOW)Stirring sources...$(RESET)"
 	@echo "$(BLUE)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
-	@echo "$(GREEN)WaW SO NICE -> $(NAME) ready$(RESET)"
+	@echo "$(GREEN)✓ $(NAME) ready$(RESET)"
 
 $(LIBFT):
 	@echo "$(YELLOW)Building libft...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(GREEN)Compiled$(RESET) $< $(BOLD)✓$(RESET)"
 
 clean:
 	@echo "$(RED)Cleaning objects...$(RESET)"
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
